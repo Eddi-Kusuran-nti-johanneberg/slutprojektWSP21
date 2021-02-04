@@ -1,7 +1,7 @@
 # Slutprojekt 2021 WSP
 Slutprojekt 2021 Webbserverprogrammering.
 
-![begin](begin.jpg)
+![begin](misc/begin.jpg)
 
 ##  Uppgiftsbeskrivning
 
