@@ -4,9 +4,21 @@ body {
 
 header {
     font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8vh;
     background: lightsalmon;
     height: 1vh;
     display:flex;
     justify-content:space-around;
     align-items:center;
-  }
+}
+
+nav {
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    text-transform: uppercase;
+    background: tomato;
+    height: 3vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
