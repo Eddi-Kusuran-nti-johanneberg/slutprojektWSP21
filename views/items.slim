@@ -2,8 +2,8 @@ h2 Items for your characters!
 
 form action="/items" method="POST"
     input type="text" name="item" placeholder="Name of your new item"
-    input type="text" name="damage" placeholder="Damage of your new item"
-    input type="submit" value="Create new item"
+    input type="number" name="damage" placeholder="Damage of your new item"
+    input type="submit" value="Create a new item"
 
 ol 
     - item.each do |item|
@@ -12,8 +12,8 @@ ol
             form method="POST" action="items/#{item["id"]}/edit"
                 input type="text" name="item" placeholder="Name of your new item"
                 input type="submit" value="Update"
-            p = item["damage"]
-            form method="POST" action="items/#{item["id"]}/edit"
+            p = "Damage: " + item["damage"].to_s
+            form method="POST" action="items_damage/#{item["id"]}/edit"
                 input type="text" name="item" placeholder="Damage of your new item"
                 input type="submit" value="Update"
             form method="POST" action="items/#{item["id"]}/delete"

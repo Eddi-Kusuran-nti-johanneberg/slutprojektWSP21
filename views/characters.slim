@@ -1,3 +1,17 @@
 h2 Your characters!
 
-main 
+form action="/edit" method="GET"
+    input type="submit" value="Create a new character"
+
+ol 
+    - character.each do |character|
+        li 
+            p = character["name"]
+            p = "Strength: " + character["strength"].to_s
+            p = "Intelligence: " + character["intelligence"].to_s
+            p = "Willpower: " + character["willpower"].to_s
+            p = "Agility: " + character["agility"].to_s
+            p = "Speed: " + character["speed"].to_s
+            p = "Endurance: " + character["endurance"].to_s
+            p = "Personality: " + character["personality"].to_s
+            p = "Luck: " + character["luck"].to_s
