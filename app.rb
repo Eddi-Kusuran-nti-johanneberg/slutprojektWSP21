@@ -6,7 +6,7 @@ require 'bcrypt'
 enable :sessions
 
 get('/') do
-  slim(:home)
+  slim(:index)
 end
 
 get('/register') do
@@ -25,11 +25,11 @@ get('/characters') do
   slim(:"characters",locals:{character:result})
 end
 
-get('/edit') do
-  slim(:edit)
+get('/create') do
+  slim(:create)
 end
 
-post('/edit') do
+post('/create') do
   id = session[:id].to_i
   character = params[:character]
   strength = params[:strength].to_i
@@ -44,6 +44,34 @@ post('/edit') do
   db.results_as_hash = true
   db.execute("INSERT INTO characters (name,strength,intelligence,willpower,agility,speed,endurance,personality,luck,user_id) VALUES (?,?,?,?,?,?,?,?,?,?)",character,strength,intelligence,willpower,agility,speed,endurance,personality,luck,id).first
   redirect('/characters')
+end
+
+get('/characters/:id/edit') do
+  slim(:edit)
+end
+
+post('/characters/:id/edit') do
+  id = params[:id].to_i
+  character = params[:character]
+  strength = params[:strength].to_i
+  intelligence = params[:intelligence].to_i
+  willpower = params[:willpower].to_i
+  agility = params[:agility].to_i
+  speed = params[:speed].to_i
+  endurance = params[:endurance].to_i
+  personality = params[:personality].to_i
+  luck = params[:luck].to_i
+  db = SQLite3::Database.new('db/slutprojektWSP21.db')
+  db.results_as_hash = true
+  db.execute("UPDATE characters SET name = ?, strength = ?, intelligence = ?, willpower = ?, agility = ?, speed = ?, endurance = ?, personality = ?, luck = ? WHERE id = ?",character,strength,intelligence,willpower,agility,speed,endurance,personality,luck,id).first
+  redirect('/characters')
+end
+
+post('/characters/:id/delete') do
+  id = params[:id].to_i
+  db = SQLite3::Database.new('db/slutprojektWSP21.db')
+  db.execute("DELETE FROM characters WHERE id = ?",id)
+  redirect("/characters")
 end
 
 get('/items') do
@@ -132,4 +160,3 @@ get('/logout') do
   end
   redirect("/")
 end
-

@@ -9,12 +9,12 @@ ol
     - item.each do |item|
         li 
             p = item["name"]
-            form method="POST" action="items/#{item["id"]}/edit"
+            form action="items/#{item["id"]}/edit" method="POST" 
                 input type="text" name="item" placeholder="Name of your new item"
                 input type="submit" value="Update"
             p = "Damage: " + item["damage"].to_s
-            form method="POST" action="items_damage/#{item["id"]}/edit"
+            form action="items_damage/#{item["id"]}/edit" method="POST"
                 input type="text" name="item" placeholder="Damage of your new item"
                 input type="submit" value="Update"
-            form method="POST" action="items/#{item["id"]}/delete"
+            form action="items/#{item["id"]}/delete" method="POST"
                 input type="submit" value="Delete"
