@@ -41,7 +41,7 @@ get('/characters') do
     "Login first!"
   else
     user_id = session[:id]
-    get_characters_for_user(user_id)
+    get_characters_and_items_for_user(user_id)
   end
 end
 
@@ -81,6 +81,7 @@ post('/characters/:id/edit') do
   end
 end
 
+
 post('/characters/:id/delete') do
   if session[:id] == nil
     "Login first!"
@@ -105,7 +106,8 @@ post('/items') do
     "Login first!"
   else
     user_id = session[:id]
-    new_item(user_id)
+    id = session[:id].to_s
+    new_item(id, user_id)
     redirect('/items')
   end
 end
@@ -125,7 +127,7 @@ post('/items_damage/:id/edit') do
   if session[:id] == nil
     "Login first!"
   else
-    id = params[:id].to_i
+    id = params[:id]
     damage = params[:item].to_i
     edit_item_damage(id, damage)
     redirect('/items')

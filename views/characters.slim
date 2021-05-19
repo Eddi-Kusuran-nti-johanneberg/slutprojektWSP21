@@ -17,5 +17,8 @@ ol
             p = "Luck: " + character["luck"].to_s
             form action="characters/#{character["id"]}/edit" method="GET"
                 input type="submit" value="Edit"
+            select name="items" id="items"
+                - item.each do |item|
+                    option value="#{item["id"]}" #{item["name"]}
             form action="characters/#{character["id"]}/delete" method="POST"
                 input type="submit" value="Delete" 
