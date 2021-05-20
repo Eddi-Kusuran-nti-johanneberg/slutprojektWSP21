@@ -8,4 +8,7 @@ form action="/characters/create" method="POST"
     input type="number" name="endurance" placeholder="Endurance"
     input type="number" name="personality" placeholder="Personality"
     input type="number" name="luck" placeholder="Luck"
+    select name="item" id="item"
+        - item.each do |item|
+            option value="#{item["id"]}" #{item["name"]}
     input type="submit" value="Create a new character"

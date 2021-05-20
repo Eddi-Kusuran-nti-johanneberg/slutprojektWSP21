@@ -6,6 +6,8 @@ require_relative './model.rb'
 
 enable :sessions
 
+include Model
+
 get('/') do
   slim(:index)
 end
@@ -41,7 +43,12 @@ get('/characters') do
     "Login first!"
   else
     user_id = session[:id]
-    get_characters_and_items_for_user(user_id)
+    result = get_characters_for_user(user_id)
+    char_item_array = []
+    result.each do |character|
+      char_item_array << get_item_from_character_name(character["name"]) 
+    end
+    slim(:"characters",locals:{character:result,items:char_item_array})
   end
 end
 
@@ -49,7 +56,9 @@ get('/characters/create') do
   if session[:id] == nil
     "Login first!"
   else
-    slim(:create)
+    user_id = session[:id]
+    result = get_items_for_characters(user_id)
+    slim(:"create",locals:{item:result})
   end
 end
 
@@ -67,7 +76,14 @@ get('/characters/:id/edit') do
   if session[:id] == nil
     "Login first!"
   else
-    slim(:edit)
+    if validate_user_for_characters(params) == true
+      user_id = session[:id]
+      id = params[:id]
+      result = get_items_for_characters(user_id)
+      slim(:"edit",locals:{item:result,id:id})
+    else
+      "You can only change characters you own!"
+    end
   end
 end
 
@@ -75,9 +91,13 @@ post('/characters/:id/edit') do
   if session[:id] == nil
     "Login first!"
   else
-    id = params[:id]
-    edit_character(id)
-    redirect('/characters')
+    if validate_user_for_characters(params) == true
+      id = params[:id]
+      edit_character(id)
+      redirect('/characters')
+    else
+      "You can only change characters you own!"
+    end
   end
 end
 
@@ -86,9 +106,13 @@ post('/characters/:id/delete') do
   if session[:id] == nil
     "Login first!"
   else
-    id = params[:id]
-    delete_character(id)
-    redirect('/characters')
+    if validate_user_for_characters(params) == true
+      id = params[:id]
+      delete_character(id)
+      redirect('/characters')
+    else
+      "You can only delete characters you own!"
+    end
   end
 end
 
@@ -97,7 +121,8 @@ get('/items') do
     "Login first!"
   else
     user_id = session[:id]
-    get_items_for_user(user_id)
+    result = get_items_for_user(user_id)
+    slim(:"items",locals:{item:result})
   end
 end
 
@@ -116,10 +141,14 @@ post('/items/:id/edit') do
   if session[:id] == nil
     "Login first!"
   else
-    id = params[:id]
-    item = params[:item]
-    edit_item(id, item)
-    redirect('/items')
+    if validate_user_for_items(params) == true
+      id = params[:id]
+      item = params[:item]
+      edit_item(id, item)
+      redirect('/items')
+    else
+      "You can only change items you own!"
+    end
   end
 end
 
@@ -127,10 +156,14 @@ post('/items_damage/:id/edit') do
   if session[:id] == nil
     "Login first!"
   else
-    id = params[:id]
-    damage = params[:item].to_i
-    edit_item_damage(id, damage)
-    redirect('/items')
+    if validate_user_for_items(params) == true
+      id = params[:id]
+      damage = params[:item].to_i
+      edit_item_damage(id, damage)
+      redirect('/items')
+    else
+      "You can only change items you own!"
+    end
   end
 end
 
@@ -138,8 +171,12 @@ post('/items/:id/delete') do
   if session[:id] == nil
     "Login first!"
   else
-    id = params[:id]
-    delete_item(id)
-    redirect("/items")
+    if validate_user_for_items(params) == true
+      id = params[:id]
+      delete_item(id)
+      redirect("/items")
+    else
+      "You can only change items you own!"
+    end
   end
 end

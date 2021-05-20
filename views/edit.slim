@@ -1,4 +1,4 @@
-form action="/characters/:id/edit" method="POST"
+form action="/characters/#{id}/edit" method="POST"
     input type="text" name="character" placeholder="New name of your character"
     input type="number" name="strength" placeholder="Strength"
     input type="number" name="intelligence" placeholder="Intelligence"
@@ -8,4 +8,7 @@ form action="/characters/:id/edit" method="POST"
     input type="number" name="endurance" placeholder="Endurance"
     input type="number" name="personality" placeholder="Personality"
     input type="number" name="luck" placeholder="Luck"
+    select name="item" id="item"
+        - item.each do |item|
+            option value="#{item["id"]}" #{item["name"]} 
     input type="submit" value="Edit your character"
