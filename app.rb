@@ -8,18 +8,27 @@ enable :sessions
 
 include Model
 
+# Display Landing Page
+#
 get('/') do
   slim(:index)
 end
 
+# Displays a register form
+#
 get('/register') do
   slim(:register)
 end
 
+# Displays a login form
+#
 get('/showlogin') do
   slim(:login)
 end
 
+# Attempts login and updates the session
+#
+# @see Model#login
 post('/login') do
   username = params[:username]
   password = params[:password]
